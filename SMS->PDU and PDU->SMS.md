@@ -10,9 +10,9 @@
 TForm1 *Form1;
 int dec=0;
 
-String EncodePhoneNumber(String PhoneNumber, int CountNum)
+AnsiString EncodePhoneNumber(AnsiString PhoneNumber, int CountNum)
 {
- String result = "";
+ AnsiString result = "";
  PhoneNumber.Delete(PhoneNumber.AnsiPos("+"),1);
  CountNum = PhoneNumber.Length();
  if((PhoneNumber.Length() % 2) > 0)
@@ -27,10 +27,10 @@ String EncodePhoneNumber(String PhoneNumber, int CountNum)
  return result;
 }
 
-String DecodePhoneNumber(String PhoneNumber, int CountNum)
+AnsiString DecodePhoneNumber(AnsiString PhoneNumber, int CountNum)
 {
- String result; CountNum=0;  int i=1;
- String len = PhoneNumber.SubString(7, 2);
+ AnsiString result; CountNum=0;  int i=1;
+AnsiString len = PhoneNumber.SubString(7, 2);
    std::string hex;
 	hex = len.c_str();
 	std::istringstream stream(hex);
