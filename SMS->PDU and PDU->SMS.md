@@ -43,22 +43,25 @@ AnsiString len = PhoneNumber.SubString(7, 2);
 	i+=2;
   }
    PhoneNumber=result;
-   PhoneNumber=PhoneNumber.Delete(CountNum+1,PhoneNumber.Length());
+	PhoneNumber=PhoneNumber.Delete(CountNum+1,PhoneNumber.Length());
    return PhoneNumber;
 
 }
 
-String DecodeMessage(String Message,String text)
-{
-Message=Message.Delete(1,dec+17);
+String DecodeMessage(String Message)
+{ String text;
 String Str;
 String ObStr;
-for (int i = 1; i <Message.Length(); i+=4) {
+Message=Message.Delete(1,dec+29);
+  ShowMessage(Message);
+for (int i = 0; i <= Message.Length(); i+=4) {
+
   ObStr=Message.SubString(i,4);
   Str=wchar_t(StrToInt("0x"+ObStr));
-text=text+""+Str;
-Str="";
-ObStr="";
+  text=text+""+Str; Form1->Memo3->Lines->Add(Str);
+  Str="";
+  ObStr="";
+
 }
 return text;
 }
@@ -112,8 +115,15 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
    Button1->Enabled=true;
    Button2->Enabled=false;
    Edit1->Enabled=true;
-   Memo1->Text=DecodePhoneNumber(Memo2->Text,0)+"  "+DecodeMessage(Memo2->Text,"");
+   Memo1->Text=DecodePhoneNumber(Memo2->Text,0)+" | "+DecodeMessage(Memo2->Text);
 
 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormCanResize(TObject *Sender, int &NewWidth, int &NewHeight,
+		  bool &Resize)
+{
+   Resize = false;
 }
 //---------------------------------------------------------------------------
