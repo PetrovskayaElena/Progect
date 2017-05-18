@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -10,7 +10,7 @@
 TForm1 *Form1;
 int dec=0;
 
-AnsiString EncodePhoneNumber(AnsiString PhoneNumber, int CountNum)
+AnsiString EncodePhoneNumber(AnsiString PhoneNumber, int CountNum)  //кодирование номера
 {
  AnsiString result = "";
  PhoneNumber.Delete(PhoneNumber.AnsiPos("+"),1);
@@ -27,7 +27,7 @@ AnsiString EncodePhoneNumber(AnsiString PhoneNumber, int CountNum)
  return result;
 }
 
-AnsiString DecodePhoneNumber(AnsiString PhoneNumber, int CountNum)
+AnsiString DecodePhoneNumber(AnsiString PhoneNumber, int CountNum)  //декодирование номера
 {
  AnsiString result; CountNum=0;  int i=1;
 AnsiString len = PhoneNumber.SubString(7, 2);
@@ -48,17 +48,16 @@ AnsiString len = PhoneNumber.SubString(7, 2);
 
 }
 
-String DecodeMessage(String Message)
+String DecodeMessage(String Message) //Декодирование сообщения
 { String text;
 String Str;
 String ObStr;
 Message=Message.Delete(1,dec+29);
-  ShowMessage(Message);
 for (int i = 0; i <= Message.Length(); i+=4) {
 
   ObStr=Message.SubString(i,4);
   Str=wchar_t(StrToInt("0x"+ObStr));
-  text=text+""+Str; Form1->Memo3->Lines->Add(Str);
+  text=text+""+Str;
   Str="";
   ObStr="";
 
@@ -70,8 +69,8 @@ return text;
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
- Memo1->Text="";
- Memo2->Text="";
+ Form1->Memo1->Lines->Clear();
+ Form1->Memo2->Lines->Clear();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Edit1KeyPress(TObject *Sender, System::WideChar &Key)
@@ -88,12 +87,15 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 	if(Memo1->Text=="")
 	text="00";
    else
-    {text=Memo1->Text;
+	{
+	//кодирование текста
+	text=Memo1->Text;
 	   TBytes pdu;
 	pdu = TEncoding::Unicode->GetBytes(text);
    text=Memo2->Text;
    for(int i = 0; i < pdu.Length; i+=2)
 		text = text + IntToHex(pdu[i+1], 2) + "" + IntToHex(pdu[i], 2);}
+   //собирание полностью кода
    Memo2->Text="000100"+IntToHex(Edit1->Text.Length(),2)+"91"+EncodePhoneNumber(Edit1->Text,0)+"0008"+IntToHex((Memo1->Text.Length())*2, 2)+text;
    Memo1->Enabled=false;
    Edit1->Enabled=false;
@@ -101,7 +103,7 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
    Button2->Enabled=true;
    Memo2->Enabled=true;}
    else
-   ShowMessage(L"������� ������!");
+   ShowMessage(L"Введите данные!");
  }
 
 //---------------------------------------------------------------------------
